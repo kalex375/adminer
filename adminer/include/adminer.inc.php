@@ -97,6 +97,8 @@ class Adminer {
 	function head() {
 		?>
 <link rel="stylesheet" type="text/css" href="../externals/jush/jush.css">
+<link rel="stylesheet" type="text/css" href="../externals/CodeMirror/lib/codemirror.css">
+<link rel="stylesheet" type="text/css" href="../externals/CodeMirror/theme/darcula.css">
 <?php
 		return true;
 	}
@@ -953,6 +955,9 @@ class Adminer {
 			echo script_src("../externals/jush/modules/jush-textarea.js");
 			echo script_src("../externals/jush/modules/jush-txt.js");
 			echo script_src("../externals/jush/modules/jush-js.js");
+
+			echo script_src("../externals/CodeMirror/lib/codemirror.js");
+			echo script_src("../externals/CodeMirror/mode/sql/sql.js");
 			if (support("sql")) {
 				echo script_src("../externals/jush/modules/jush-$jush.js");
 				?>
@@ -971,6 +976,11 @@ class Adminer {
 				$server_info = $connection->server_info;
 				?>
 bodyLoad('<?php echo (is_object($connection) ? preg_replace('~^(\d\.?\d).*~s', '\1', $server_info) : ""); ?>'<?php echo (preg_match('~MariaDB~', $server_info) ? ", true" : ""); ?>);
+  var editor = CodeMirror.fromTextArea(document.querySelector('.sqlarea'), {
+    lineNumbers: true,
+      mode:  "sql",
+      theme: "darcula"
+  });
 </script>
 <?php
 			}
